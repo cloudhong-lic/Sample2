@@ -1,26 +1,34 @@
-﻿using Library.Logging;
-using Library.WebApi.Helpers;
-using NLog;
-using Sample.WebApi.Client.Interfaces.v0;
-using Sample.WebApi.Client.v0;
+﻿using Topshelf;
+using Topshelf.Ninject;
 
 namespace Sample2.Console
 {
-	internal class Program
+	class Program
 	{
-		private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
-
-		private static void Main(string[] args)
+		static void Main(string[] args)
 		{
-			_logger.Info("Calling IAnimalsProvider WebApi");
+			// 在这里仍然使用Topshelf作为Console
+			// 虽然显得繁琐了一点, 但得到了更多好处
+			HostFactory.Run(hf =>
+			{
+				hf.UseNinject(new ConsoleModule());
 
-			IAnimalsProvider animalsProvider = new AnimalsProvider(new HttpServiceHelper());
-			var animal = animalsProvider.Get(1).Result;
+				hf.Service<ConsoleService>(svc =>
+				{
+					svc.ConstructUsingNinject();
+					svc.WhenStarted((service, control) => service.Start(control));
+					svc.WhenStopped(ais => ais.Stop());
+				});
 
-			//TODO: 没有写入日志或打印到屏幕, 原因不详
-			_logger.Info(() => LoggingConvention.ForLogging("Get IAnimalsProvider WebApi", animal));
+				// 在这里配置NLog可以将Topshelf的服务日志写入NLog
+				// 否则只会在Console中显示
+				hf.UseNLog();
 
-			System.Console.WriteLine(animal.AnimalKey);
+				// Set up identification strings
+				hf.SetDescription("Sample2 Console to get WebApi result from Sample WebApi client");
+				hf.SetDisplayName("Sample2 - Console");
+				hf.SetServiceName("Sample2.Console");
+			});
 		}
 	}
 }
