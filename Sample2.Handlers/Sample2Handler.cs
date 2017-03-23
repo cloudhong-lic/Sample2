@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Library.Logging;
 using Library.Messaging.MassTransit;
 using MassTransit;
@@ -19,11 +20,13 @@ namespace Sample2.Handlers
 
 		public async Task Handle(int animalKey)
 		{
-			await _mtBus.PublishAnonymous<INewFarmerEvent>(h =>
+			Action<INewFarmerEvent> action = h =>
 			{
 				h.Id = 1;
 				h.Name = "A farmer";
-			}).ConfigureAwait(false);
+			};
+
+			await _mtBus.PublishAnonymous<INewFarmerEvent>(action).ConfigureAwait(false);
 
 			_logger.Info(() => LoggingConvention.ForLogging("Publish a INewFarmerEvent message", new { Id = 1, Name = "A farmer" }));
 		}
