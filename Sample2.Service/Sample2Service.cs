@@ -54,6 +54,7 @@ namespace Sample2.Service
 			_logger.Info("Service stopped");
 		}
 
+		// Send only MassTransit Bus setup
 		private IBusControl ConfigureMassTransit()
 		{
 			var busControl = Bus.Factory.CreateUsingRabbitMq(sbc =>

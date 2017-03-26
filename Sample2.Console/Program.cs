@@ -9,6 +9,7 @@ namespace Sample2.Console
 		{
 			// 在这里仍然使用Topshelf作为Console
 			// 虽然显得繁琐了一点, 但得到了更多好处
+			// TODO: 还是应该考虑做一个基本的例子
 			HostFactory.Run(hf =>
 			{
 				hf.UseNinject(new ConsoleModule());
