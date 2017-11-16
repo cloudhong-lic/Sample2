@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Sample2.Messages")]
 [assembly: AssemblyDescription("Provides the Contracts for Sample2 Events and Commands.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Livestock Improvement")]
+[assembly: AssemblyCompany("None")]
 [assembly: AssemblyProduct("Sample2.Messages")]
-[assembly: AssemblyCopyright("Copyright © Livestock Improvement 2017")]
+[assembly: AssemblyCopyright("Copyright © None 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
